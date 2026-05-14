@@ -17,19 +17,19 @@ os_release:
     debian: bookworm
     ubuntu: jammy
   8.5:
-    debian: bookworm
+    debian: trixie
     ubuntu: jammy
   8.4:
-    debian: bookworm
+    debian: trixie
     ubuntu: jammy
   8.3:
-    debian: bookworm
+    debian: trixie
     ubuntu: jammy
   8.2:
-    debian: bookworm
+    debian: trixie
     ubuntu: jammy
   8.1:
-    debian: bookworm
+    debian: trixie
     ubuntu: jammy
   # Bullseye (Ubuntu: focal, groovy, hirsute, impish)
   8.0:
