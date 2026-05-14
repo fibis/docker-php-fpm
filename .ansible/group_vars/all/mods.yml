@@ -251,7 +251,7 @@ extensions_available:
       run_dep: [libffi7]
   fileinfo:
     disabled: []
-    already_avail: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    already_avail: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4]
   filter:
     disabled: []
     already_avail: "{{ php_all_versions }}"
@@ -262,9 +262,6 @@ extensions_available:
       type: builtin
       configure: --with-openssl-dir=/usr
       build_dep: [libssl-dev]
-    8.5:
-      type: builtin
-      configure: --with-ftp-ssl
     8.4:
       type: builtin
       configure: --with-ftp-ssl
@@ -276,31 +273,26 @@ extensions_available:
       configure: --with-gd --with-vpx-dir=/usr --with-jpeg-dir=/usr --with-png-dir=/usr --with-zlib-dir=/usr --with-xpm-dir=/usr --with-freetype-dir=/usr --enable-gd-native-ttf
       build_dep: [libpng-dev, libjpeg-dev, libxpm-dev, libvpx-dev, zlib1g-dev, libfreetype6-dev, libwebp-dev]
       run_dep: [libpng16-16, libjpeg62-turbo, libxpm4, libvpx7, libfreetype6, libwebp7, libavif15]
-    8.5:
-      type: builtin
-      configure: --enable-gd --with-webp --with-jpeg --with-xpm --with-freetype --with-avif
-      build_dep: [libpng-dev, libjpeg-dev, libxpm-dev, libvpx-dev, zlib1g-dev, libfreetype6-dev, libwebp-dev, libavif-dev]
-      run_dep: [libpng16-16, libjpeg62-turbo, libxpm4, libvpx9, libfreetype6, libwebp7, libavif16]
     8.4:
       type: builtin
       configure: --enable-gd --with-webp --with-jpeg --with-xpm --with-freetype --with-avif
       build_dep: [libpng-dev, libjpeg-dev, libxpm-dev, libvpx-dev, zlib1g-dev, libfreetype6-dev, libwebp-dev, libavif-dev]
-      run_dep: [libpng16-16, libjpeg62-turbo, libxpm4, libvpx9, libfreetype6, libwebp7, libavif16]
+      run_dep: [libpng16-16, libjpeg62-turbo, libxpm4, libvpx7, libfreetype6, libwebp7, libavif15]
     8.3:
       type: builtin
       configure: --enable-gd --with-webp --with-jpeg --with-xpm --with-freetype --with-avif
       build_dep: [libpng-dev, libjpeg-dev, libxpm-dev, libvpx-dev, zlib1g-dev, libfreetype6-dev, libwebp-dev, libavif-dev]
-      run_dep: [libpng16-16, libjpeg62-turbo, libxpm4, libvpx9, libfreetype6, libwebp7, libavif16]
+      run_dep: [libpng16-16, libjpeg62-turbo, libxpm4, libvpx7, libfreetype6, libwebp7, libavif15]
     8.2:
       type: builtin
       configure: --enable-gd --with-webp --with-jpeg --with-xpm --with-freetype --with-avif
       build_dep: [libpng-dev, libjpeg-dev, libxpm-dev, libvpx-dev, zlib1g-dev, libfreetype6-dev, libwebp-dev, libavif-dev]
-      run_dep: [libpng16-16, libjpeg62-turbo, libxpm4, libvpx9, libfreetype6, libwebp7, libavif16]
+      run_dep: [libpng16-16, libjpeg62-turbo, libxpm4, libvpx7, libfreetype6, libwebp7, libavif15]
     8.1:
       type: builtin
       configure: --enable-gd --with-webp --with-jpeg --with-xpm --with-freetype --with-avif
       build_dep: [libpng-dev, libjpeg-dev, libxpm-dev, libvpx-dev, zlib1g-dev, libfreetype6-dev, libwebp-dev, libavif-dev]
-      run_dep: [libpng16-16, libjpeg62-turbo, libxpm4, libvpx9, libfreetype6, libwebp7, libavif16]
+      run_dep: [libpng16-16, libjpeg62-turbo, libxpm4, libvpx7, libfreetype6, libwebp7, libavif15]
     8.0:
       type: builtin
       configure: --enable-gd --with-webp --with-jpeg --with-xpm --with-freetype
@@ -373,26 +365,6 @@ extensions_available:
         && sed -i'' 's|.*<policy domain="coder".*"XPS".*||g' /etc/ImageMagick-6/policy.xml \
         && sed -i'' 's|.*<policy domain="coder".*"PS".*||g' /etc/ImageMagick-6/policy.xml \
         && sed -i'' 's|.*<policy domain="delegate".*pattern="gs".*||g' /etc/ImageMagick-6/policy.xml \
-    8.5:
-      type: git
-      git_url: https://github.com/Imagick/imagick/
-      flags: --depth=1 --single-branch --branch=master
-      command: |
-        phpize \
-        && ./configure \
-        && make -j$(getconf _NPROCESSORS_ONLN) \
-        && make install \
-      run_dep: [libmagickwand-7.q16-10, libwebp7, ghostscript]
-      post: |
-        sed -i'' 's|.*"thread".*|  <policy domain="resource" name="thread" value="1"/>|g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PS".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PS2".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PS3".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"EPS".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PDF".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"XPS".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PS".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="delegate".*pattern="gs".*||g' /etc/ImageMagick-7/policy.xml \
     8.4:
       type: git
       git_url: https://github.com/Imagick/imagick/
@@ -402,17 +374,6 @@ extensions_available:
         && ./configure \
         && make -j$(getconf _NPROCESSORS_ONLN) \
         && make install \
-      run_dep: [libmagickwand-7.q16-10, libwebp7, ghostscript]
-      post: |
-        sed -i'' 's|.*"thread".*|  <policy domain="resource" name="thread" value="1"/>|g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PS".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PS2".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PS3".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"EPS".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PDF".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"XPS".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PS".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="delegate".*pattern="gs".*||g' /etc/ImageMagick-7/policy.xml \
     8.3:
       type: git
       git_url: https://github.com/Imagick/imagick/
@@ -422,41 +383,6 @@ extensions_available:
         && ./configure \
         && make -j$(getconf _NPROCESSORS_ONLN) \
         && make install \
-      run_dep: [libmagickwand-7.q16-10, libwebp7, ghostscript]
-      post: |
-        sed -i'' 's|.*"thread".*|  <policy domain="resource" name="thread" value="1"/>|g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PS".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PS2".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PS3".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"EPS".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PDF".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"XPS".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PS".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="delegate".*pattern="gs".*||g' /etc/ImageMagick-7/policy.xml \
-    8.2:
-      run_dep: [libmagickwand-7.q16-10, libwebp7, ghostscript]
-      post: |
-        sed -i'' 's|.*"thread".*|  <policy domain="resource" name="thread" value="1"/>|g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PS".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PS2".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PS3".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"EPS".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PDF".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"XPS".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PS".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="delegate".*pattern="gs".*||g' /etc/ImageMagick-7/policy.xml \
-    8.1:
-      run_dep: [libmagickwand-7.q16-10, libwebp7, ghostscript]
-      post: |
-        sed -i'' 's|.*"thread".*|  <policy domain="resource" name="thread" value="1"/>|g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PS".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PS2".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PS3".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"EPS".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PDF".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"XPS".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="coder".*"PS".*||g' /etc/ImageMagick-7/policy.xml \
-        && sed -i'' 's|.*<policy domain="delegate".*pattern="gs".*||g' /etc/ImageMagick-7/policy.xml \
     8.0:
       type: pecl
       run_dep: [libmagickwand-6.q16-6, libwebp6, ghostscript]
@@ -479,16 +405,13 @@ extensions_available:
       type: pecl
       run_dep: [libmagickwand-6.q16-3, libwebp6, ghostscript]
   imap:
-    disabled: [8.1, 8.2, 8.3, 8.4, 8.5]
+    disabled: []
     all:
       type: builtin
       pre: ln -s /usr/lib/$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)/libkrb5* /usr/lib/
       configure: --with-kerberos --with-imap-ssl --with-imap
       build_dep: [libc-client-dev, libkrb5-dev, libcurl4-openssl-dev]
       run_dep: [libc-client2007e]
-    8.5:
-      type: pecl
-      version: 1.0.3
     8.4:
       type: pecl
       version: 1.0.3
@@ -504,21 +427,6 @@ extensions_available:
       type: builtin
       build_dep: [libicu-dev]
       run_dep: [libicu72]
-    8.5:
-      type: builtin
-      run_dep: [libicu76]
-    8.4:
-      type: builtin
-      run_dep: [libicu76]
-    8.3:
-      type: builtin
-      run_dep: [libicu76]
-    8.2:
-      type: builtin
-      run_dep: [libicu76]
-    8.1:
-      type: builtin
-      run_dep: [libicu76]
     8.0:
       type: builtin
       run_dep: [libicu67]
@@ -653,18 +561,6 @@ extensions_available:
       command: printf "\n\n\nyes\nyes\nyes\n" | pecl install memcached
       build_dep: [zlib1g-dev, libmemcached-dev, libevent-dev]
       run_dep: [libmemcachedutil2, libevent-2.1-7]
-    8.5:
-      type: git
-      git_url: https://github.com/php-memcached-dev/php-memcached
-      flags: --depth=1 --single-branch --branch=master
-      command: |
-        true \
-        # FIXME: This is a work-around to mitigate compile error with PHP 8.5
-        && sed -i'' 's/\sTSRMLS_CC//g' php_memcached_session.c \
-        && phpize \
-        && ./configure --enable-memcached \
-        && make -j$(getconf _NPROCESSORS_ONLN) \
-        && make install \
     8.4:
       type: git
       git_url: https://github.com/php-memcached-dev/php-memcached
@@ -779,7 +675,7 @@ extensions_available:
       build_dep: [libmariadbclient-dev]
   mysqlnd:
     disabled: []
-    already_avail: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    already_avail: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4]
   pcre:
     disabled: []
     already_avail: "{{ php_all_versions }}"
@@ -788,21 +684,6 @@ extensions_available:
     all:
       type: pecl
       build_dep: [libpcre3-dev, libcurl4-openssl-dev]
-    8.5:
-      type: pecl
-      build_dep: [libpcre2-dev, libcurl4-openssl-dev]
-    8.4:
-      type: pecl
-      build_dep: [libpcre2-dev, libcurl4-openssl-dev]
-    8.3:
-      type: pecl
-      build_dep: [libpcre2-dev, libcurl4-openssl-dev]
-    8.2:
-      type: pecl
-      build_dep: [libpcre2-dev, libcurl4-openssl-dev]
-    8.1:
-      type: pecl
-      build_dep: [libpcre2-dev, libcurl4-openssl-dev]
     5.6:
       type: pecl
       version: 1.2.3
@@ -838,7 +719,6 @@ extensions_available:
         && ORACLE_VERSION_FULL="$( echo "${ORACLE_HREF}" | grep -Eo 'basiclite-[-.0-9el]+' | sed -e 's/basiclite-//g' -e 's/\.$//g' )" \
         && ORACLE_VERSION_DEVEL_FULL="$( echo "${ORACLE_DEVEL_HREF}" | grep -Eo 'devel-[-.0-9el]+' | sed -e 's/devel-//g' -e 's/\.$//g' )" \
         \
-        && rpm --import http://yum.oracle.com/RPM-GPG-KEY-oracle-ol${OL_VERSION} \
         && curl -sS -o /tmp/oracle-instantclient${ORACLE_VERSION_MAJOR}-basiclite-${ORACLE_VERSION_FULL}.${ARCH}.rpm \
         https://yum.oracle.com/repo/OracleLinux/OL${OL_VERSION}/oracle/instantclient/${ARCH}/getPackage/oracle-instantclient${ORACLE_VERSION_MAJOR}-basiclite-${ORACLE_VERSION_FULL}.${ARCH}.rpm \
         && curl -sS -o /tmp/oracle-instantclient${ORACLE_VERSION_MAJOR}-devel-${ORACLE_VERSION_DEVEL_FULL}.${ARCH}.rpm \
@@ -872,25 +752,14 @@ extensions_available:
         )" \
         && ORACLE_VERSION_MAJOR="$( echo "${ORACLE_HREF}" | grep -Eo 'instantclient[.0-9]+' | sed 's/instantclient//g' )" \
         && (ln -sf /usr/lib/oracle/${ORACLE_VERSION_MAJOR}/client64/lib/*.so* /usr/lib/ || true) \
-    8.5:
-      type: pecl
-      command: printf "instantclient,/usr/lib/oracle/${ORACLE_VERSION_MAJOR}/client64/lib/,${ORACLE_VERSION_MAJOR}" | pecl install oci8
-      run_dep: [libaio1t64]
     8.4:
       type: pecl
       command: printf "instantclient,/usr/lib/oracle/${ORACLE_VERSION_MAJOR}/client64/lib/,${ORACLE_VERSION_MAJOR}" | pecl install oci8
-      run_dep: [libaio1t64]
-    8.3:
-      run_dep: [libaio1t64]
-    8.2:
-      run_dep: [libaio1t64]
-    8.1:
-      run_dep: [libaio1t64]
   odbc:
     disabled: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
   opcache:
     disabled: []
-    already_avail: [8.1, 8.2, 8.3, 8.4, 8.5]
+    already_avail: [8.1, 8.2, 8.3, 8.4]
     all:
       type: builtin
   openssl:
@@ -921,11 +790,6 @@ extensions_available:
     all:
       type: builtin
       configure: --with-zlib-dir=/usr
-      run_dep: [libmariadbd19]
-      build_dep: [zlib1g-dev, libmariadb-dev]
-    8.5:
-      type: builtin
-      configure: 
       run_dep: [libmariadbd19]
       build_dep: [zlib1g-dev, libmariadb-dev]
     8.4:
@@ -973,7 +837,6 @@ extensions_available:
         && ORACLE_VERSION_FULL="$( echo "${ORACLE_HREF}" | grep -Eo 'basiclite-[-.0-9el]+' | sed -e 's/basiclite-//g' -e 's/\.$//g' )" \
         && ORACLE_VERSION_DEVEL_FULL="$( echo "${ORACLE_DEVEL_HREF}" | grep -Eo 'devel-[-.0-9el]+' | sed -e 's/devel-//g' -e 's/\.$//g' )" \
         \
-        && rpm --import http://yum.oracle.com/RPM-GPG-KEY-oracle-ol${OL_VERSION} \
         && curl -sS -o /tmp/oracle-instantclient${ORACLE_VERSION_MAJOR}-basiclite-${ORACLE_VERSION_FULL}.${ARCH}.rpm \
         https://yum.oracle.com/repo/OracleLinux/OL${OL_VERSION}/oracle/instantclient/${ARCH}/getPackage/oracle-instantclient${ORACLE_VERSION_MAJOR}-basiclite-${ORACLE_VERSION_FULL}.${ARCH}.rpm \
         && curl -sS -o /tmp/oracle-instantclient${ORACLE_VERSION_MAJOR}-devel-${ORACLE_VERSION_DEVEL_FULL}.${ARCH}.rpm \
@@ -990,9 +853,6 @@ extensions_available:
         && rm -f /tmp/oracle-instantclient${ORACLE_VERSION_MAJOR}-devel-${ORACLE_VERSION_DEVEL_FULL}.${ARCH}.rpm \
         && (ln -s /usr/lib/oracle/${ORACLE_VERSION_MAJOR}/client64/lib/*.so* /usr/lib/ || true) \
       build_dep: [alien]
-    8.5:
-      type: pecl
-      command: printf "instantclient,/usr/lib/oracle/${ORACLE_VERSION_MAJOR}/client64/lib/,${ORACLE_VERSION_MAJOR}" | pecl install pdo_oci
     8.4:
       type: pecl
       command: printf "instantclient,/usr/lib/oracle/${ORACLE_VERSION_MAJOR}/client64/lib/,${ORACLE_VERSION_MAJOR}" | pecl install pdo_oci
@@ -1160,7 +1020,7 @@ extensions_available:
       command: cd build && ./install
   phar:
     disabled: []
-    already_avail: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    already_avail: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4]
   posix:
     disabled: []
     already_avail: "{{ php_all_versions }}"
@@ -1170,9 +1030,6 @@ extensions_available:
       type: builtin
       build_dep: [libpspell-dev]
       run_dep: [libaspell15]
-    8.5:
-      type: pecl
-      version: 1.0.1
     8.4:
       type: pecl
       version: 1.0.1
@@ -1230,11 +1087,6 @@ extensions_available:
     disabled: []
     all:
       type: builtin
-    8.5:
-      # Remove ucred (currently breaks build)
-      pre: |
-        docker-php-ext-configure sockets \
-        && sed -i'' 's/.*ucred.*//g' /usr/src/php/ext/sockets/sendrecvmsg.c \
     8.4:
       # Remove ucred (currently breaks build)
       pre: |
@@ -1321,31 +1173,6 @@ extensions_available:
       configure: --with-zip
       build_dep: [libzip-dev]
       run_dep: [libzip4]
-    8.5:
-      type: builtin
-      configure: --with-zip
-      build_dep: [libzip-dev]
-      run_dep: [libzip5]
-    8.4:
-      type: builtin
-      configure: --with-zip
-      build_dep: [libzip-dev]
-      run_dep: [libzip5]
-    8.3:
-      type: builtin
-      configure: --with-zip
-      build_dep: [libzip-dev]
-      run_dep: [libzip5]
-    8.2:
-      type: builtin
-      configure: --with-zip
-      build_dep: [libzip-dev]
-      run_dep: [libzip5]
-    8.1:
-      type: builtin
-      configure: --with-zip
-      build_dep: [libzip-dev]
-      run_dep: [libzip5]
     7.3:
       type: builtin
       configure: --enable-zip --with-zlib-dir=/usr --with-pcre-dir=/usr --with-libzip=/usr
@@ -1418,21 +1245,6 @@ extensions_available:
       type: builtin
       build_dep: [libtidy-dev]
       run_dep: [libtidy5deb1]
-    8.5:
-      type: builtin
-      run_dep: [libtidy58]
-    8.4:
-      type: builtin
-      run_dep: [libtidy58]
-    8.3:
-      type: builtin
-      run_dep: [libtidy58]
-    8.2:
-      type: builtin
-      run_dep: [libtidy58]
-    8.1:
-      type: builtin
-      run_dep: [libtidy58]
     7.0:
       type: builtin
       run_dep: [libtidy5]

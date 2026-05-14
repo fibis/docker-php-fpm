@@ -73,7 +73,6 @@ RUN set -eux \
         gcc \
         git \
         lemon \
-        libc-client-dev \
         libc-dev \
         libcurl4-openssl-dev \
         libssl-dev \
@@ -107,7 +106,23 @@ RUN set -eux \
 	&& echo "/usr" | pecl install amqp \
 	# Enabling
 	&& docker-php-ext-enable amqp \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^amqp$' \
+	&& php-fpm -m | grep -oiE '^amqp$'
 
 
 # -------------------- Installing PHP Extension: apcu --------------------
@@ -118,7 +133,23 @@ RUN set -eux \
 	&& pecl install apcu \
 	# Enabling
 	&& docker-php-ext-enable apcu \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^apcu$' \
+	&& php-fpm -m | grep -oiE '^apcu$'
 
 
 # -------------------- Installing PHP Extension: bcmath --------------------
@@ -126,7 +157,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) bcmath \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^bcmath$' \
+	&& php-fpm -m | grep -oiE '^bcmath$'
 
 
 # -------------------- Installing PHP Extension: blackfire --------------------
@@ -141,6 +188,21 @@ RUN set -eux \
 && mv /tmp/blackfire/blackfire-*.so $(php -r "echo ini_get('extension_dir');")/blackfire.so \
 && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz \
  \
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
 	&& true
 
 
@@ -149,7 +211,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) bz2 \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^bz2$' \
+	&& php-fpm -m | grep -oiE '^bz2$'
 
 
 # -------------------- Installing PHP Extension: calendar --------------------
@@ -157,7 +235,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) calendar \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^calendar$' \
+	&& php-fpm -m | grep -oiE '^calendar$'
 
 
 # -------------------- Installing PHP Extension: dba --------------------
@@ -165,7 +259,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) dba \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^dba$' \
+	&& php-fpm -m | grep -oiE '^dba$'
 
 
 # -------------------- Installing PHP Extension: exif --------------------
@@ -173,7 +283,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) exif \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^exif$' \
+	&& php-fpm -m | grep -oiE '^exif$'
 
 
 # -------------------- Installing PHP Extension: ffi --------------------
@@ -182,7 +308,23 @@ RUN set -eux \
 	# Type:         Built-in extension
 	# Installation
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) ffi \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^ffi$' \
+	&& php-fpm -m | grep -oiE '^ffi$'
 
 
 # -------------------- Installing PHP Extension: gd --------------------
@@ -195,7 +337,23 @@ RUN set -eux \
 	&& docker-php-ext-configure gd --enable-gd --with-webp --with-jpeg --with-xpm --with-freetype \
 	# Installation
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) gd \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^gd$' \
+	&& php-fpm -m | grep -oiE '^gd$'
 
 
 # -------------------- Installing PHP Extension: gettext --------------------
@@ -203,7 +361,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) gettext \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^gettext$' \
+	&& php-fpm -m | grep -oiE '^gettext$'
 
 
 # -------------------- Installing PHP Extension: gmp --------------------
@@ -213,7 +387,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) gmp \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^gmp$' \
+	&& php-fpm -m | grep -oiE '^gmp$'
 
 
 # -------------------- Installing PHP Extension: igbinary --------------------
@@ -224,7 +414,23 @@ RUN set -eux \
 	&& pecl install igbinary \
 	# Enabling
 	&& docker-php-ext-enable igbinary \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^igbinary$' \
+	&& php-fpm -m | grep -oiE '^igbinary$'
 
 
 # -------------------- Installing PHP Extension: imagick --------------------
@@ -246,7 +452,23 @@ RUN set -eux \
 && sed -i'' 's|.*<policy domain="coder".*"PS".*||g' /etc/ImageMagick-6/policy.xml \
 && sed -i'' 's|.*<policy domain="delegate".*pattern="gs".*||g' /etc/ImageMagick-6/policy.xml \
  \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^imagick$' \
+	&& php-fpm -m | grep -oiE '^imagick$'
 
 
 # -------------------- Installing PHP Extension: imap --------------------
@@ -258,7 +480,23 @@ RUN set -eux \
 	# Custom:       configure command
 	&& docker-php-ext-configure imap --with-kerberos --with-imap-ssl --with-imap \
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) imap \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^imap$' \
+	&& php-fpm -m | grep -oiE '^imap$'
 
 
 # -------------------- Installing PHP Extension: intl --------------------
@@ -267,7 +505,23 @@ RUN set -eux \
 	# Type:         Built-in extension
 	# Installation
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) intl \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^intl$' \
+	&& php-fpm -m | grep -oiE '^intl$'
 
 
 # -------------------- Installing PHP Extension: ioncube --------------------
@@ -284,6 +538,21 @@ RUN set -eux \
 && rm -rf ioncube \
 && rm -rf ioncube.tar.gz \
  \
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
 	&& true
 
 
@@ -296,7 +565,23 @@ RUN set -eux \
 	# Custom:       configure command
 	&& docker-php-ext-configure ldap --with-ldap --with-ldap-sasl \
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) ldap \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^ldap$' \
+	&& php-fpm -m | grep -oiE '^ldap$'
 
 
 # -------------------- Installing PHP Extension: lz4 --------------------
@@ -317,7 +602,23 @@ RUN set -eux \
 	&& make install \
 	# Enabling
 	&& docker-php-ext-enable lz4 \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^lz4$' \
+	&& php-fpm -m | grep -oiE '^lz4$'
 
 
 # -------------------- Installing PHP Extension: lzf --------------------
@@ -328,7 +629,23 @@ RUN set -eux \
 	&& pecl install lzf \
 	# Enabling
 	&& docker-php-ext-enable lzf \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^lzf$' \
+	&& php-fpm -m | grep -oiE '^lzf$'
 
 
 # -------------------- Installing PHP Extension: mcrypt --------------------
@@ -339,7 +656,23 @@ RUN set -eux \
 	&& pecl install mcrypt \
 	# Enabling
 	&& docker-php-ext-enable mcrypt \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^mcrypt$' \
+	&& php-fpm -m | grep -oiE '^mcrypt$'
 
 
 # -------------------- Installing PHP Extension: memcache --------------------
@@ -350,7 +683,23 @@ RUN set -eux \
 	&& pecl install memcache-4.0.5.2 \
 	# Enabling
 	&& docker-php-ext-enable memcache \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^memcache$' \
+	&& php-fpm -m | grep -oiE '^memcache$'
 
 
 # -------------------- Installing PHP Extension: msgpack --------------------
@@ -361,7 +710,23 @@ RUN set -eux \
 	&& pecl install msgpack \
 	# Enabling
 	&& docker-php-ext-enable msgpack \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^msgpack$' \
+	&& php-fpm -m | grep -oiE '^msgpack$'
 
 
 # -------------------- Installing PHP Extension: memcached --------------------
@@ -372,7 +737,23 @@ RUN set -eux \
 	&& printf "\n\n\nyes\nyes\nyes\n" | pecl install memcached \
 	# Enabling
 	&& docker-php-ext-enable memcached \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^memcached$' \
+	&& php-fpm -m | grep -oiE '^memcached$'
 
 
 # -------------------- Installing PHP Extension: mongodb --------------------
@@ -383,7 +764,23 @@ RUN set -eux \
 	&& pecl install mongodb-1.20.1 \
 	# Enabling
 	&& docker-php-ext-enable mongodb \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^mongodb$' \
+	&& php-fpm -m | grep -oiE '^mongodb$'
 
 
 # -------------------- Installing PHP Extension: mysqli --------------------
@@ -391,7 +788,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) mysqli \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^mysqli$' \
+	&& php-fpm -m | grep -oiE '^mysqli$'
 
 
 # -------------------- Installing PHP Extension: oauth --------------------
@@ -402,7 +815,23 @@ RUN set -eux \
 	&& pecl install oauth \
 	# Enabling
 	&& docker-php-ext-enable oauth \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^oauth$' \
+	&& php-fpm -m | grep -oiE '^oauth$'
 
 
 # -------------------- Installing PHP Extension: oci8 --------------------
@@ -434,7 +863,6 @@ ORACLE_HREF="$( \
 && ORACLE_VERSION_FULL="$( echo "${ORACLE_HREF}" | grep -Eo 'basiclite-[-.0-9el]+' | sed -e 's/basiclite-//g' -e 's/\.$//g' )" \
 && ORACLE_VERSION_DEVEL_FULL="$( echo "${ORACLE_DEVEL_HREF}" | grep -Eo 'devel-[-.0-9el]+' | sed -e 's/devel-//g' -e 's/\.$//g' )" \
 \
-&& rpm --import http://yum.oracle.com/RPM-GPG-KEY-oracle-ol${OL_VERSION} \
 && curl -sS -o /tmp/oracle-instantclient${ORACLE_VERSION_MAJOR}-basiclite-${ORACLE_VERSION_FULL}.${ARCH}.rpm \
 https://yum.oracle.com/repo/OracleLinux/OL${OL_VERSION}/oracle/instantclient/${ARCH}/getPackage/oracle-instantclient${ORACLE_VERSION_MAJOR}-basiclite-${ORACLE_VERSION_FULL}.${ARCH}.rpm \
 && curl -sS -o /tmp/oracle-instantclient${ORACLE_VERSION_MAJOR}-devel-${ORACLE_VERSION_DEVEL_FULL}.${ARCH}.rpm \
@@ -473,7 +901,23 @@ ORACLE_HREF="$( \
 && ORACLE_VERSION_MAJOR="$( echo "${ORACLE_HREF}" | grep -Eo 'instantclient[.0-9]+' | sed 's/instantclient//g' )" \
 && (ln -sf /usr/lib/oracle/${ORACLE_VERSION_MAJOR}/client64/lib/*.so* /usr/lib/ || true) \
  \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^oci8$' \
+	&& php-fpm -m | grep -oiE '^oci8$'
 
 
 # -------------------- Installing PHP Extension: opcache --------------------
@@ -481,7 +925,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) opcache \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^Zend Opcache$' \
+	&& php-fpm -m | grep -oiE '^Zend Opcache$'
 
 
 # -------------------- Installing PHP Extension: pcntl --------------------
@@ -489,7 +949,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) pcntl \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^pcntl$' \
+	&& php-fpm -m | grep -oiE '^pcntl$'
 
 
 # -------------------- Installing PHP Extension: pdo_dblib --------------------
@@ -499,7 +975,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) pdo_dblib \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^pdo_dblib$' \
+	&& php-fpm -m | grep -oiE '^pdo_dblib$'
 
 
 # -------------------- Installing PHP Extension: pdo_firebird --------------------
@@ -507,7 +999,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) pdo_firebird \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^pdo_firebird$' \
+	&& php-fpm -m | grep -oiE '^pdo_firebird$'
 
 
 # -------------------- Installing PHP Extension: pdo_mysql --------------------
@@ -517,7 +1025,23 @@ RUN set -eux \
 	# Custom:       configure command
 	&& docker-php-ext-configure pdo_mysql --with-zlib-dir=/usr \
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) pdo_mysql \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^pdo_mysql$' \
+	&& php-fpm -m | grep -oiE '^pdo_mysql$'
 
 
 # -------------------- Installing PHP Extension: pdo_oci --------------------
@@ -549,7 +1073,6 @@ ORACLE_HREF="$( \
 && ORACLE_VERSION_FULL="$( echo "${ORACLE_HREF}" | grep -Eo 'basiclite-[-.0-9el]+' | sed -e 's/basiclite-//g' -e 's/\.$//g' )" \
 && ORACLE_VERSION_DEVEL_FULL="$( echo "${ORACLE_DEVEL_HREF}" | grep -Eo 'devel-[-.0-9el]+' | sed -e 's/devel-//g' -e 's/\.$//g' )" \
 \
-&& rpm --import http://yum.oracle.com/RPM-GPG-KEY-oracle-ol${OL_VERSION} \
 && curl -sS -o /tmp/oracle-instantclient${ORACLE_VERSION_MAJOR}-basiclite-${ORACLE_VERSION_FULL}.${ARCH}.rpm \
 https://yum.oracle.com/repo/OracleLinux/OL${OL_VERSION}/oracle/instantclient/${ARCH}/getPackage/oracle-instantclient${ORACLE_VERSION_MAJOR}-basiclite-${ORACLE_VERSION_FULL}.${ARCH}.rpm \
 && curl -sS -o /tmp/oracle-instantclient${ORACLE_VERSION_MAJOR}-devel-${ORACLE_VERSION_DEVEL_FULL}.${ARCH}.rpm \
@@ -571,7 +1094,23 @@ https://yum.oracle.com/repo/OracleLinux/OL${OL_VERSION}/oracle/instantclient/${A
 	# Custom:       configure command
 	&& docker-php-ext-configure pdo_oci --with-pdo-oci=instantclient,/usr/lib/oracle/${ORACLE_VERSION_MAJOR}/client64/lib/,${ORACLE_VERSION_MAJOR} \
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) pdo_oci \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^pdo_oci$' \
+	&& php-fpm -m | grep -oiE '^pdo_oci$'
 
 
 # -------------------- Installing PHP Extension: pdo_pgsql --------------------
@@ -579,7 +1118,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) pdo_pgsql \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^pdo_pgsql$' \
+	&& php-fpm -m | grep -oiE '^pdo_pgsql$'
 
 
 # -------------------- Installing PHP Extension: pdo_sqlsrv --------------------
@@ -590,7 +1145,23 @@ RUN set -eux \
 	&& pecl install pdo_sqlsrv-5.10.1 \
 	# Enabling
 	&& docker-php-ext-enable pdo_sqlsrv \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^pdo_sqlsrv$' \
+	&& php-fpm -m | grep -oiE '^pdo_sqlsrv$'
 
 
 # -------------------- Installing PHP Extension: pgsql --------------------
@@ -598,7 +1169,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) pgsql \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^pgsql$' \
+	&& php-fpm -m | grep -oiE '^pgsql$'
 
 
 # -------------------- Installing PHP Extension: psr --------------------
@@ -609,7 +1196,23 @@ RUN set -eux \
 	&& pecl install psr \
 	# Enabling
 	&& docker-php-ext-enable psr \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^psr$' \
+	&& php-fpm -m | grep -oiE '^psr$'
 
 
 # -------------------- Installing PHP Extension: zstd --------------------
@@ -620,7 +1223,23 @@ RUN set -eux \
 	&& pecl install zstd \
 	# Enabling
 	&& docker-php-ext-enable zstd \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^zstd$' \
+	&& php-fpm -m | grep -oiE '^zstd$'
 
 
 # -------------------- Installing PHP Extension: redis --------------------
@@ -631,7 +1250,23 @@ RUN set -eux \
 	&& pecl install redis \
 	# Enabling
 	&& docker-php-ext-enable redis \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^redis$' \
+	&& php-fpm -m | grep -oiE '^redis$'
 
 
 # -------------------- Installing PHP Extension: sqlsrv --------------------
@@ -642,7 +1277,23 @@ RUN set -eux \
 	&& pecl install sqlsrv-5.10.1 \
 	# Enabling
 	&& docker-php-ext-enable sqlsrv \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^sqlsrv$' \
+	&& php-fpm -m | grep -oiE '^sqlsrv$'
 
 
 # -------------------- Installing PHP Extension: pspell --------------------
@@ -650,7 +1301,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) pspell \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^pspell$' \
+	&& php-fpm -m | grep -oiE '^pspell$'
 
 
 # -------------------- Installing PHP Extension: rdkafka --------------------
@@ -661,7 +1328,23 @@ RUN set -eux \
 	&& pecl install rdkafka \
 	# Enabling
 	&& docker-php-ext-enable rdkafka \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^rdkafka$' \
+	&& php-fpm -m | grep -oiE '^rdkafka$'
 
 
 # -------------------- Installing PHP Extension: shmop --------------------
@@ -669,7 +1352,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) shmop \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^shmop$' \
+	&& php-fpm -m | grep -oiE '^shmop$'
 
 
 # -------------------- Installing PHP Extension: snmp --------------------
@@ -679,7 +1378,23 @@ RUN set -eux \
 	# Custom:       configure command
 	&& docker-php-ext-configure snmp --with-snmp \
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) snmp \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^snmp$' \
+	&& php-fpm -m | grep -oiE '^snmp$'
 
 
 # -------------------- Installing PHP Extension: soap --------------------
@@ -687,7 +1402,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) soap \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^soap$' \
+	&& php-fpm -m | grep -oiE '^soap$'
 
 
 # -------------------- Installing PHP Extension: sockets --------------------
@@ -695,7 +1426,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) sockets \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^sockets$' \
+	&& php-fpm -m | grep -oiE '^sockets$'
 
 
 # -------------------- Installing PHP Extension: solr --------------------
@@ -706,7 +1453,23 @@ RUN set -eux \
 	&& pecl install solr \
 	# Enabling
 	&& docker-php-ext-enable solr \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^solr$' \
+	&& php-fpm -m | grep -oiE '^solr$'
 
 
 # -------------------- Installing PHP Extension: sourceguardian --------------------
@@ -724,6 +1487,21 @@ RUN set -eux \
 && rm -rf sourceguardian \
 && rm -rf sourceguardian.tar.gz \
  \
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
 	&& true
 
 
@@ -735,7 +1513,23 @@ RUN set -eux \
 	&& pecl install ssh2-1.2 \
 	# Enabling
 	&& docker-php-ext-enable ssh2 \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^ssh2$' \
+	&& php-fpm -m | grep -oiE '^ssh2$'
 
 
 # -------------------- Installing PHP Extension: zip --------------------
@@ -745,7 +1539,23 @@ RUN set -eux \
 	# Custom:       configure command
 	&& docker-php-ext-configure zip --with-zip \
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) zip \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^zip$' \
+	&& php-fpm -m | grep -oiE '^zip$'
 
 
 # -------------------- Installing PHP Extension: swoole --------------------
@@ -756,7 +1566,23 @@ RUN set -eux \
 	&& pecl install swoole-4.8.13 \
 	# Enabling
 	&& docker-php-ext-enable swoole \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^swoole$' \
+	&& php-fpm -m | grep -oiE '^swoole$'
 
 
 # -------------------- Installing PHP Extension: sysvmsg --------------------
@@ -764,7 +1590,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) sysvmsg \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^sysvmsg$' \
+	&& php-fpm -m | grep -oiE '^sysvmsg$'
 
 
 # -------------------- Installing PHP Extension: sysvsem --------------------
@@ -772,7 +1614,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) sysvsem \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^sysvsem$' \
+	&& php-fpm -m | grep -oiE '^sysvsem$'
 
 
 # -------------------- Installing PHP Extension: sysvshm --------------------
@@ -780,7 +1638,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) sysvshm \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^sysvshm$' \
+	&& php-fpm -m | grep -oiE '^sysvshm$'
 
 
 # -------------------- Installing PHP Extension: tidy --------------------
@@ -788,7 +1662,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) tidy \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^tidy$' \
+	&& php-fpm -m | grep -oiE '^tidy$'
 
 
 # -------------------- Installing PHP Extension: uploadprogress --------------------
@@ -799,7 +1689,23 @@ RUN set -eux \
 	&& pecl install uploadprogress \
 	# Enabling
 	&& docker-php-ext-enable uploadprogress \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^uploadprogress$' \
+	&& php-fpm -m | grep -oiE '^uploadprogress$'
 
 
 # -------------------- Installing PHP Extension: uuid --------------------
@@ -810,7 +1716,23 @@ RUN set -eux \
 	&& pecl install uuid \
 	# Enabling
 	&& docker-php-ext-enable uuid \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^uuid$' \
+	&& php-fpm -m | grep -oiE '^uuid$'
 
 
 # -------------------- Installing PHP Extension: vips --------------------
@@ -821,7 +1743,23 @@ RUN set -eux \
 	&& pecl install vips \
 	# Enabling
 	&& docker-php-ext-enable vips \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^vips$' \
+	&& php-fpm -m | grep -oiE '^vips$'
 
 
 # -------------------- Installing PHP Extension: xdebug --------------------
@@ -832,7 +1770,23 @@ RUN set -eux \
 	&& pecl install xdebug-3.1.6 \
 	# Enabling
 	&& docker-php-ext-enable xdebug \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^xdebug$' \
+	&& php-fpm -m | grep -oiE '^xdebug$'
 
 
 # -------------------- Installing PHP Extension: xhprof --------------------
@@ -843,7 +1797,23 @@ RUN set -eux \
 	&& pecl install xhprof \
 	# Enabling
 	&& docker-php-ext-enable xhprof \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^xhprof$' \
+	&& php-fpm -m | grep -oiE '^xhprof$'
 
 
 # -------------------- Installing PHP Extension: xlswriter --------------------
@@ -854,7 +1824,23 @@ RUN set -eux \
 	&& pecl install xlswriter \
 	# Enabling
 	&& docker-php-ext-enable xlswriter \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^xlswriter$' \
+	&& php-fpm -m | grep -oiE '^xlswriter$'
 
 
 # -------------------- Installing PHP Extension: xmlrpc --------------------
@@ -865,7 +1851,23 @@ RUN set -eux \
 	&& docker-php-ext-configure xmlrpc --with-iconv-dir=/usr \
 	# Installation
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) xmlrpc \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^xmlrpc$' \
+	&& php-fpm -m | grep -oiE '^xmlrpc$'
 
 
 # -------------------- Installing PHP Extension: xsl --------------------
@@ -873,7 +1875,23 @@ RUN set -eux \
 	# Installation: Generic
 	# Type:         Built-in extension
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) xsl \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^xsl$' \
+	&& php-fpm -m | grep -oiE '^xsl$'
 
 
 # -------------------- Installing PHP Extension: yaml --------------------
@@ -884,7 +1902,23 @@ RUN set -eux \
 	&& pecl install yaml \
 	# Enabling
 	&& docker-php-ext-enable yaml \
-	&& true
+	# ---- Test extension ----
+	&& /usr/local/sbin/php-fpm --test \
+	\
+	&& (php -v 2>&1 1>/dev/null || true) \
+	&& PHP_ERROR="$( php -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	&& PHP_ERROR="$( php -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_ERROR}" ]; then echo "${PHP_ERROR}"; false; fi \
+	\
+	&& (php-fpm -v 2>&1 1>/dev/null || true) \
+	&& PHP_FPM_ERROR="$( php-fpm -v 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	&& PHP_FPM_ERROR="$( php-fpm -i 2>&1 1>/dev/null )" \
+	&& if [ -n "${PHP_FPM_ERROR}" ]; then echo "${PHP_FPM_ERROR}"; false; fi \
+	\
+	&& php -m | grep -oiE '^yaml$' \
+	&& php-fpm -m | grep -oiE '^yaml$'
 
 
 

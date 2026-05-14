@@ -433,7 +433,7 @@ RUN set -eux \
 
 # -------------------- (pip) pwncat --------------------
 RUN set -eux \
-	&& pip install --no-cache-dir --no-compile --force-reinstall --break-system-packages pwncat \
+	&& pip install --no-cache-dir --no-compile --force-reinstall  pwncat \
 	&& ln -s pwncat /usr/local/bin/netcat \
 	\
 	&& pwncat --version 2>&1 | grep -E 'Version [0-9][.0-9]+' || (pwncat --version; false)	\
@@ -493,13 +493,13 @@ RUN set -eux \
 
 # -------------------- (pip) yamllint --------------------
 RUN set -eux \
-	&& pip install --no-cache-dir --no-compile --force-reinstall --break-system-packages yamllint \
+	&& pip install --no-cache-dir --no-compile --force-reinstall  yamllint \
 	&& yamllint --version 2>&1 | grep -E '[0-9][.0-9]+' || (yamllint --version; false)	\
 	&& true
 
 # -------------------- (pip) yq --------------------
 RUN set -eux \
-	&& pip install --no-cache-dir --no-compile --force-reinstall --break-system-packages yq \
+	&& pip install --no-cache-dir --no-compile --force-reinstall  yq \
 	&& yq --version 2>&1 | grep -E '[0-9][.0-9]+' || (yq --version; false)	\
 	&& true
 
