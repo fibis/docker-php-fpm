@@ -124,6 +124,7 @@ help_software_available:
       post: |
         runuser -l devilbox -c ". {{ nvm_home }}/nvm.sh; nvm install ${NODE_VERSION}" \
         && runuser -l devilbox -c ". {{ nvm_home }}/nvm.sh; nvm use ${NODE_VERSION}" \
+        && runuser -l devilbox -c ". {{ nvm_home }}/nvm.sh; npm install -g corepack" \
         && runuser -l devilbox -c ". {{ nvm_home }}/nvm.sh; corepack enable" \
         \
         && ln -s "{{ nvm_home }}/versions/node/$(runuser -l devilbox -c '. {{ nvm_home }}/nvm.sh; node --version')/bin/corepack" /usr/local/bin/ \

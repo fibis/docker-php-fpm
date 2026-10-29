@@ -4,6 +4,29 @@
 ## Unreleased
 
 
+## Release 0.161
+
+### Added
+- Added PHP 8.5 (8.5.12)
+- Re-enabled `solr`, `ssh2` and `mcrypt` for PHP 8.4 and 8.5
+
+### Changed
+- Rebuilt PHP 8.4 on 8.4.27
+- Pinned PHP 8.1 - 8.5 base images to Debian bookworm (`php:X-fpm` now defaults to trixie)
+- `imagick` and `memcached` on PHP 8.4+ install stable PECL releases instead of git master
+- `oauth` 2.0.13 (GitHub tag) on PHP 8.4+, `memcache` on PHP 8.5 from upstream commit with the 8.5 fix
+- `phpcs`/`phpcbf` download from PHPCSStandards (4.x), `phpmd` 3.x on PHP 8.4+, `php-cs-fixer` re-enabled on PHP 8.4+
+
+### Fixed
+- `redis` is built with igbinary, msgpack, lzf, zstd and lz4 support again
+- `swoole` 6.x: build with brotli and coroutine pgsql (options for openssl/http2/json are no-ops in 6.x); PHP 8.1 pinned to 6.1.11
+- `memcached` restores igbinary/msgpack serializers on PHP 8.4+
+- Node.js 25+ no longer bundles corepack: install it via npm before `corepack enable`
+- PHP 7.4/8.0: bullseye-security moved to archive.debian.org
+- PHP 8.0: `lz4` build no longer regenerates arginfo (gen_stub.php parse error)
+- `webpack-cli` 7 version check
+
+
 ## Release 0.160
 
 ### Added
