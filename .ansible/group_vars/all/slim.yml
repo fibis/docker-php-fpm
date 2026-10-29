@@ -115,19 +115,19 @@ base_apt_repositories_available:
       pre: |
         curl -sS -L --fail "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x648ACFD622F3D138" | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add - \
         && curl -sS -L --fail "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x6A26B1AE64C3C388" | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add - \
-      deb: deb http://ftp.debian.org/debian {{ os_release[8.0].debian }}-backports main contrib non-free
+      deb: deb http://archive.debian.org/debian {{ os_release[8.0].debian }}-backports main contrib non-free
     7.4:
       type: repo
       pre: |
         curl -sS -L --fail "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x648ACFD622F3D138" | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add - \
         && curl -sS -L --fail "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x6A26B1AE64C3C388" | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add - \
-      deb: deb http://ftp.debian.org/debian {{ os_release[7.4].debian }}-backports main contrib non-free
+      deb: deb http://archive.debian.org/debian {{ os_release[7.4].debian }}-backports main contrib non-free
     7.3:
       type: repo
       pre: |
         curl -sS -L --fail "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x648ACFD622F3D138" | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add - \
         && curl -sS -L --fail "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x6A26B1AE64C3C388" | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add - \
-      deb: deb http://ftp.debian.org/debian {{ os_release[7.3].debian }}-backports main contrib non-free
+      deb: deb http://archive.debian.org/debian {{ os_release[7.3].debian }}-backports main contrib non-free
     # [Buster]
     7.2:
       type: repo
