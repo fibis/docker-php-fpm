@@ -91,7 +91,7 @@ RUN set -eux \
 # -------------------- pip --------------------
 RUN set -eux \
 	&& rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED	\
-	&& curl -sS -L --fail https://bootstrap.pypa.io/get-pip.py | python3 \
+	&& curl -sS -L --fail https://bootstrap.pypa.io/pip/3.9/get-pip.py | python3 \
 	\
 	&& /bin/ls -1 /usr/local/lib/ | grep ^python | while read -r version; do \
 	  cd "/usr/local/lib/${version}/" \

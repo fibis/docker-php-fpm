@@ -362,7 +362,7 @@ RUN set -eux \
 
 # -------------------- (custom) magerun --------------------
 RUN set -eux \
-	&& MAGERUN_URL="https://files.magerun.net/n98-magerun2-latest.phar"	\
+	&& MAGERUN_URL="https://files.magerun.net/n98-magerun2-9.5.1.phar"	\
 	&& curl -sS -k -L --fail -L "${MAGERUN_URL}" -o /usr/local/bin/magerun	\
 	&& chmod +x /usr/local/bin/magerun	\
 	&& magerun --version	\
@@ -467,7 +467,7 @@ RUN set -eux \
 
 # -------------------- (custom) trap --------------------
 RUN set -eux \
-	&& TRAP_URL="https://github.com/buggregator/trap/releases/latest/download/trap.phar"	\
+	&& TRAP_URL="https://github.com/buggregator/trap/releases/download/1.17.1/trap.phar"	\
 	&& curl -sS -k -L --fail -L "${TRAP_URL}" -o /usr/local/bin/btrap	\
 	&& chmod +x /usr/local/bin/btrap	\
 	&& btrap --version	\
