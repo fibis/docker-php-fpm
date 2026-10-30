@@ -36,6 +36,8 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
+      # GHCR allows 2000 requests/minute; 35 parallel pushes hit 'toomanyrequests'
+      max-parallel: 4
       matrix:
         version: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
         stage: [base, mods, prod, slim, work]
@@ -61,6 +63,7 @@ jobs:
           STAGE: ${{ matrix.stage }}
         run: |
           set -eu
+          retry() { for i in 1 2 3 4 5; do "$@" && return 0; echo "Retry ${i}/5: $*"; sleep $(( i * 30 )); done; return 1; }
           TAG="${VERSION}-${STAGE}"
           REFS=""
           for ARCH in amd64 arm64; do
@@ -68,11 +71,11 @@ jobs:
             SRC="$( docker load -i "${FILE}" | sed -n 's/^Loaded image: //p' | head -1 )"
             DST="${IMAGE}:${TAG}-${RELEASE}-linux-${ARCH}"
             docker tag "${SRC}" "${DST}"
-            docker push "${DST}"
+            retry docker push "${DST}"
             docker rmi "${SRC}" "${DST}" >/dev/null
             REFS="${REFS} ${DST}"
           done
-          docker buildx imagetools create \
+          retry docker buildx imagetools create \
             --annotation "index:org.opencontainers.image.source=https://github.com/${GITHUB_REPOSITORY}" \
             --annotation "index:org.opencontainers.image.description=PHP ${VERSION} FPM (${STAGE}) for devilbox, built and tested by run ${RUN_ID}" \
             --tag "${IMAGE}:${TAG}-${RELEASE}" \
