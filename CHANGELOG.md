@@ -28,6 +28,7 @@
 - PHP 8.3: pinned `phpunit` 12 (13 requires PHP 8.4+)
 - PHP 8.0: `lz4` build no longer regenerates arginfo (gen_stub.php parse error)
 - `webpack-cli` 7 version check
+- `mysql`/`mysqldump` in slim/work images ship the client auth plugins (`caching_sha2_password`), so they can log in to MySQL/Percona 9.x
 
 
 ## Release 0.160
