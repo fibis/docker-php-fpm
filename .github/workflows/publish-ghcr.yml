@@ -5,11 +5,6 @@
 name: 📦 Publish to GHCR
 
 on:
-  push:
-    branches:
-      - ghcr-publish
-    paths:
-      - '.github/workflows/publish-ghcr.yml'
   workflow_dispatch:
     inputs:
       run_id:
@@ -18,6 +13,9 @@ on:
       release:
         description: 'Release suffix for the versioned tags, e.g. 0.161'
         required: true
+      versions:
+        description: 'JSON list of PHP versions to publish'
+        default: '["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]'
 
 permissions:
   actions: read
@@ -25,9 +23,8 @@ permissions:
   packages: write
 
 env:
-  # Defaults for the push trigger
-  RUN_ID: ${{ inputs.run_id || '40926752040' }}
-  RELEASE: ${{ inputs.release || '0.161' }}
+  RUN_ID: ${{ inputs.run_id }}
+  RELEASE: ${{ inputs.release }}
   IMAGE: ghcr.io/${{ github.repository_owner }}/php-fpm
 
 jobs:
@@ -39,7 +36,7 @@ jobs:
       # GHCR allows 2000 requests/minute; 35 parallel pushes hit 'toomanyrequests'
       max-parallel: 4
       matrix:
-        version: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
+        version: ${{ fromJson(inputs.versions) }}
         stage: [base, mods, prod, slim, work]
     steps:
       - name: Download tested images (amd64 + arm64)
@@ -76,8 +73,6 @@ jobs:
             REFS="${REFS} ${DST}"
           done
           retry docker buildx imagetools create \
-            --annotation "index:org.opencontainers.image.source=https://github.com/${GITHUB_REPOSITORY}" \
-            --annotation "index:org.opencontainers.image.description=PHP ${VERSION} FPM (${STAGE}) for devilbox, built and tested by run ${RUN_ID}" \
             --tag "${IMAGE}:${TAG}-${RELEASE}" \
             --tag "${IMAGE}:${TAG}" \
             ${REFS}
