@@ -14,6 +14,12 @@ if (version_compare(PHP_VERSION, '8.1.0', '<=')) {
 	exit(0);
 }
 
+// PHP 8.6 images build gd without AVIF (bundled libgd needs libavif >= 1.0, bookworm has 0.11)
+if (version_compare(PHP_VERSION, '8.6.0', '>=')) {
+	echo 'SKIP';
+	exit(0);
+}
+
 // Check for support
 if (!function_exists('imageavif')) {
 	echo 'FAIL: imageavif()';
