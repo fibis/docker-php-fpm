@@ -7,6 +7,10 @@ all:
   command: curl -sS -k -L --fail https://phpmd.org/static/latest/phpmd.phar -L -o /usr/local/bin/phpmd
   post: chmod +x /usr/local/bin/phpmd
 
+8.6:
+  type: custom
+  command: curl -sS -k -L --fail https://github.com/phpmd/phpmd/releases/latest/download/phpmd.phar -L -o /usr/local/bin/phpmd
+
 8.5:
   type: custom
   command: curl -sS -k -L --fail https://github.com/phpmd/phpmd/releases/latest/download/phpmd.phar -L -o /usr/local/bin/phpmd

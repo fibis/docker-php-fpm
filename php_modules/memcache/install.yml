@@ -9,6 +9,19 @@ all:
   type: pecl
   build_dep: [zlib1g-dev]
 
+# PHP 8.6: no release yet; unmerged websupport-sk/pecl-memcache#122 (session handlers) + #120 (8.6 API fixes) on top of ac8e8c5
+8.6:
+  type: git
+  git_url: https://github.com/aidvu/pecl-memcache
+  git_ref: e360edfa5c687e5432307342067b3ae43c7c2352
+  command: |
+    git fetch -q https://github.com/remicollet/pecl-memcache 5007fe083a22907a7e6a1d811a0e3f72a8dbf0f4 \
+    && git diff ac8e8c521a18aae14c8f2859694536ead304ce97 FETCH_HEAD | git apply \
+    && phpize \
+    && ./configure --enable-memcache \
+    && make -j$(getconf _NPROCESSORS_ONLN) \
+    && make install \
+
 # PECL 8.2 does not build on PHP 8.5 (php_smart_string_public.h removed); fixed upstream in
 # websupport-sk/pecl-memcache#118, not yet released. Drop this block once a PECL release > 8.2 exists.
 8.5:

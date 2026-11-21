@@ -11,3 +11,10 @@ all:
 5.6:
   type: pecl
   version: 4.0.11
+
+# PHP 8.6: https://github.com/krakjoe/apcu/commit/fb2c942552a3f5dab7f4dea4afb5cf0831222c57
+8.6:
+  type: git
+  git_url: https://github.com/krakjoe/apcu
+  git_ref: fb2c942552a3f5dab7f4dea4afb5cf0831222c57
+  configure: --enable-apcu

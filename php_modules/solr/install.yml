@@ -24,3 +24,9 @@ all:
 7.0:
   type: pecl
   version: 2.6.0
+
+# PHP 8.6: https://github.com/php/pecl-search_engine-solr/pull/101
+8.6:
+  type: git
+  git_url: https://github.com/bix0r/pecl-search_engine-solr
+  git_ref: e2b9b5353624c0e5ad453e57953cb030afb53e05

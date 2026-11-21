@@ -10,6 +10,12 @@ all:
   build_dep: [libpspell-dev]
   run_dep: [libaspell15]
 
+# PHP 8.6: https://github.com/php/pecl-text-pspell/pull/4
+8.6:
+  type: git
+  git_url: https://github.com/remicollet/pecl-text-pspell
+  git_ref: 648e022d52eea8e912457ee97a751d2937c258cf
+
 8.5:
   type: pecl
   version: 1.0.1

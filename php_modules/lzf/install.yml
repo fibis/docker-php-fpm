@@ -26,3 +26,10 @@ all:
   version: 1.6.8
   build_dep: []
   run_dep: []
+
+# PHP 8.6: https://github.com/php/pecl-file_formats-lzf/commit/f965c93e51d261b2b48f5a8bcf5c76f2d847c202
+8.6:
+  type: git
+  git_url: https://github.com/php/pecl-file_formats-lzf
+  git_ref: f965c93e51d261b2b48f5a8bcf5c76f2d847c202
+  configure: --enable-lzf

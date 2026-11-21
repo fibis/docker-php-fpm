@@ -8,6 +8,7 @@
 
 ### Added
 - Added PHP 8.5 (8.5.12)
+- Added PHP 8.6 (8.6.0). The official `php:8.6` images are always thread-safe (ZTS) and no longer bundle PEAR/pecl or `mbstring`: the 8.6 base image installs PEAR/pecl again and `mbstring` is built in mods
 - Re-enabled `solr`, `ssh2` and `mcrypt` for PHP 8.4 and 8.5
 
 ### Changed
@@ -15,6 +16,7 @@
 - Pinned PHP 8.1 - 8.5 base images to Debian bookworm (`php:X-fpm` now defaults to trixie)
 - `imagick` and `memcached` on PHP 8.4+ install stable PECL releases instead of git master
 - `oauth` 2.0.13 (GitHub tag) on PHP 8.4+, `memcache` on PHP 8.5 from upstream commit with the 8.5 fix
+- PHP 8.6: extensions without an 8.6-capable PECL release build from pinned upstream commits (amqp, apcu, imagick, imap, lzf, memcache, memcached, msgpack, mcrypt, pspell, rdkafka 7.x, redis, solr, sqlsrv/pdo_sqlsrv, xdebug, xlswriter); `gd` without AVIF (bundled libgd needs libavif >= 1.0); `swoole`, `ioncube` and `sourceguardian` are not available on 8.6 yet
 - `phpcs`/`phpcbf` download from PHPCSStandards (4.x), `phpmd` 3.x on PHP 8.4+, `php-cs-fixer` re-enabled on PHP 8.4+
 
 ### Fixed

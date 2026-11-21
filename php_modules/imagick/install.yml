@@ -59,3 +59,9 @@ all:
 5.6:
   type: pecl
   run_dep: [libmagickwand-6.q16-3, libwebp6, ghostscript]
+
+# PHP 8.6: https://github.com/Imagick/imagick/pull/795
+8.6:
+  type: git
+  git_url: https://github.com/Imagick/imagick
+  git_ref: 55ed2e9fda264395636a2e27e51f31673f5566ab

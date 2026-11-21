@@ -17,3 +17,10 @@ all:
 5.6:
   type: pecl
   version: 3.1.2
+
+# PHP 8.6: https://github.com/php-rdkafka/php-rdkafka
+8.6:
+  type: git
+  git_url: https://github.com/php-rdkafka/php-rdkafka
+  git_ref: 34348cd8517e0ffa85d013117fb6e4ac6da5c709
+  configure: --with-rdkafka

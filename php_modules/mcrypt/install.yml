@@ -26,3 +26,9 @@ all:
 
 5.6:
   type: builtin
+
+# PHP 8.6: https://github.com/php/pecl-encryption-mcrypt/pull/27
+8.6:
+  type: git
+  git_url: https://github.com/remicollet/pecl-encryption-mcrypt
+  git_ref: 4c7518ccf2eb57a6fa220bca8621df8625475029

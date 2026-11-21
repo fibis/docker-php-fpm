@@ -11,3 +11,10 @@ all:
 5.6:
   type: pecl
   version: 0.5.7
+
+# PHP 8.6: https://github.com/msgpack/msgpack-php/commit/4a6890850a9065f9a211951df4fc39c5a4c498ab
+8.6:
+  type: git
+  git_url: https://github.com/msgpack/msgpack-php
+  git_ref: 4a6890850a9065f9a211951df4fc39c5a4c498ab
+  configure: --with-msgpack

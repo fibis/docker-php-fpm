@@ -142,8 +142,13 @@ extensions_available:
     5.6:
       type: pecl
       version: 1.11.0
+    8.6:
+      type: git
+      git_url: https://github.com/remicollet/php-amqp
+      git_ref: 58edfb5e51a49cd10174cdfb18c73a539892d53d
+      configure: --with-amqp
   apc:
-    disabled: [7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    disabled: [7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6]
     already_avail: "{{ php_all_versions }}"
   apcu:
     disabled: []
@@ -152,6 +157,11 @@ extensions_available:
     5.6:
       type: pecl
       version: 4.0.11
+    8.6:
+      type: git
+      git_url: https://github.com/krakjoe/apcu
+      git_ref: fb2c942552a3f5dab7f4dea4afb5cf0831222c57
+      configure: --enable-apcu
   bcmath:
     disabled: []
     all:
@@ -215,11 +225,17 @@ extensions_available:
       build_dep: [libenchant-dev]
       run_dep: [libenchant1c2a]
   ereg:
-    disabled: [7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    disabled: [7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6]
     already_avail: "{{ php_all_versions }}"
   mbstring:
     disabled: []
-    already_avail: "{{ php_all_versions }}"  # Available by default
+    already_avail: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    all:
+      type: builtin
+    8.6:
+      type: builtin
+      build_dep: [libonig-dev]
+      run_dep: [libonig5]
   exif:
     disabled: []
     all:
@@ -253,7 +269,7 @@ extensions_available:
       run_dep: [libffi7]
   fileinfo:
     disabled: []
-    already_avail: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    already_avail: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6]
   filter:
     disabled: []
     already_avail: "{{ php_all_versions }}"
@@ -264,6 +280,9 @@ extensions_available:
       type: builtin
       configure: --with-openssl-dir=/usr
       build_dep: [libssl-dev]
+    8.6:
+      type: builtin
+      configure: --with-ftp-ssl
     8.5:
       type: builtin
       configure: --with-ftp-ssl
@@ -278,6 +297,11 @@ extensions_available:
       configure: --with-gd --with-vpx-dir=/usr --with-jpeg-dir=/usr --with-png-dir=/usr --with-zlib-dir=/usr --with-xpm-dir=/usr --with-freetype-dir=/usr --enable-gd-native-ttf
       build_dep: [libpng-dev, libjpeg-dev, libxpm-dev, libvpx-dev, zlib1g-dev, libfreetype6-dev, libwebp-dev]
       run_dep: [libpng16-16, libjpeg62-turbo, libxpm4, libvpx7, libfreetype6, libwebp7, libavif15]
+    8.6:
+      type: builtin
+      configure: --enable-gd --with-webp --with-jpeg --with-xpm --with-freetype
+      build_dep: [libpng-dev, libjpeg-dev, libxpm-dev, libvpx-dev, zlib1g-dev, libfreetype6-dev, libwebp-dev]
+      run_dep: [libpng16-16, libjpeg62-turbo, libxpm4, libvpx7, libfreetype6, libwebp7]
     8.5:
       type: builtin
       configure: --enable-gd --with-webp --with-jpeg --with-xpm --with-freetype --with-avif
@@ -405,6 +429,10 @@ extensions_available:
     5.6:
       type: pecl
       run_dep: [libmagickwand-6.q16-3, libwebp6, ghostscript]
+    8.6:
+      type: git
+      git_url: https://github.com/Imagick/imagick
+      git_ref: 55ed2e9fda264395636a2e27e51f31673f5566ab
   imap:
     disabled: []
     all:
@@ -413,6 +441,11 @@ extensions_available:
       configure: --with-kerberos --with-imap-ssl --with-imap
       build_dep: [libc-client-dev, libkrb5-dev, libcurl4-openssl-dev]
       run_dep: [libc-client2007e]
+    8.6:
+      type: git
+      git_url: https://github.com/php/pecl-mail-imap
+      git_ref: c441c79add125f5a01f88332805221edeebe47b0
+      configure: --with-imap --with-kerberos --with-imap-ssl
     8.5:
       type: pecl
       version: 1.0.3
@@ -420,7 +453,7 @@ extensions_available:
       type: pecl
       version: 1.0.3
   interbase:
-    disabled: [7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    disabled: [7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6]
     all:
       type: builtin
       build_dep: [libfbclient2, libib-util, firebird-dev]
@@ -453,7 +486,7 @@ extensions_available:
       type: builtin
       run_dep: [libicu57]
   ioncube:
-    disabled: [8.0]
+    disabled: [8.0, 8.6]
     all:
       type: custom
       command: |
@@ -477,7 +510,7 @@ extensions_available:
       configure: --with-ldap --with-ldap-sasl
       build_dep: [libldap2-dev, libsasl2-dev]
   lexbor:
-    disabled: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    disabled: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6]
     already_avail: "{{ php_all_versions }}"
   lz4:
     disabled: [5.6]
@@ -522,6 +555,11 @@ extensions_available:
       version: 1.6.8
       build_dep: []
       run_dep: []
+    8.6:
+      type: git
+      git_url: https://github.com/php/pecl-file_formats-lzf
+      git_ref: f965c93e51d261b2b48f5a8bcf5c76f2d847c202
+      configure: --enable-lzf
   mcrypt:
     disabled: [8.1, 8.2, 8.3]
     all:
@@ -540,11 +578,26 @@ extensions_available:
       type: builtin
     5.6:
       type: builtin
+    8.6:
+      type: git
+      git_url: https://github.com/remicollet/pecl-encryption-mcrypt
+      git_ref: 4c7518ccf2eb57a6fa220bca8621df8625475029
   memcache:
     disabled: []
     all:
       type: pecl
       build_dep: [zlib1g-dev]
+    8.6:
+      type: git
+      git_url: https://github.com/aidvu/pecl-memcache
+      git_ref: e360edfa5c687e5432307342067b3ae43c7c2352
+      command: |
+        git fetch -q https://github.com/remicollet/pecl-memcache 5007fe083a22907a7e6a1d811a0e3f72a8dbf0f4 \
+        && git diff ac8e8c521a18aae14c8f2859694536ead304ce97 FETCH_HEAD | git apply \
+        && phpize \
+        && ./configure --enable-memcache \
+        && make -j$(getconf _NPROCESSORS_ONLN) \
+        && make install \
     8.5:
       type: git
       git_url: https://github.com/websupport-sk/pecl-memcache
@@ -575,6 +628,11 @@ extensions_available:
     5.6:
       type: pecl
       version: 0.5.7
+    8.6:
+      type: git
+      git_url: https://github.com/msgpack/msgpack-php
+      git_ref: 4a6890850a9065f9a211951df4fc39c5a4c498ab
+      configure: --with-msgpack
   memcached:
     disabled: []
     all:
@@ -622,11 +680,16 @@ extensions_available:
       type: pecl
       version: 2.2.0
       run_dep: [libmemcachedutil2, libevent-2.0-5]
+    8.6:
+      type: git
+      git_url: https://github.com/php-memcached-dev/php-memcached
+      git_ref: 0b52d3657140750fa0eddd20cdbfc6edc8fbdadd
+      configure: --enable-memcached --enable-memcached-igbinary --enable-memcached-msgpack --enable-memcached-json
   mhash:
-    disabled: [7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    disabled: [7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6]
     already_avail: [5.6]
   mongo:
-    disabled: [7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    disabled: [7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6]
     all:
       type: pecl
       command: yes yes | pecl install mongo
@@ -658,7 +721,7 @@ extensions_available:
       type: pecl
       version: 1.7.5
   mysql:
-    disabled: [7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    disabled: [7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6]
     all:
       type: builtin
       configure: --with-mysql --with-mysql-sock --with-zlib-dir=/usr --with-libdir="/lib/$(dpkg-architecture --query DEB_BUILD_MULTIARCH)"
@@ -684,7 +747,7 @@ extensions_available:
       build_dep: [libmariadbclient-dev]
   mysqlnd:
     disabled: []
-    already_avail: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    already_avail: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6]
   pcre:
     disabled: []
     already_avail: "{{ php_all_versions }}"
@@ -693,6 +756,10 @@ extensions_available:
     all:
       type: pecl
       build_dep: [libpcre3-dev, libcurl4-openssl-dev]
+    8.6:
+      type: git
+      git_url: https://github.com/php/pecl-web_services-oauth
+      flags: --depth=1 --single-branch --branch=2.0.13
     8.5:
       type: git
       git_url: https://github.com/php/pecl-web_services-oauth
@@ -770,6 +837,9 @@ extensions_available:
         )" \
         && ORACLE_VERSION_MAJOR="$( echo "${ORACLE_HREF}" | grep -Eo 'instantclient[.0-9]+' | sed 's/instantclient//g' )" \
         && (ln -sf /usr/lib/oracle/${ORACLE_VERSION_MAJOR}/client64/lib/*.so* /usr/lib/ || true) \
+    8.6:
+      type: pecl
+      command: printf "instantclient,/usr/lib/oracle/${ORACLE_VERSION_MAJOR}/client64/lib/,${ORACLE_VERSION_MAJOR}" | pecl install oci8
     8.5:
       type: pecl
       command: printf "instantclient,/usr/lib/oracle/${ORACLE_VERSION_MAJOR}/client64/lib/,${ORACLE_VERSION_MAJOR}" | pecl install oci8
@@ -777,10 +847,10 @@ extensions_available:
       type: pecl
       command: printf "instantclient,/usr/lib/oracle/${ORACLE_VERSION_MAJOR}/client64/lib/,${ORACLE_VERSION_MAJOR}" | pecl install oci8
   odbc:
-    disabled: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    disabled: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6]
   opcache:
     disabled: []
-    already_avail: [8.1, 8.2, 8.3, 8.4, 8.5]
+    already_avail: [8.1, 8.2, 8.3, 8.4, 8.5, 8.6]
     all:
       type: builtin
   openssl:
@@ -811,6 +881,11 @@ extensions_available:
     all:
       type: builtin
       configure: --with-zlib-dir=/usr
+      run_dep: [libmariadbd19]
+      build_dep: [zlib1g-dev, libmariadb-dev]
+    8.6:
+      type: builtin
+      configure: 
       run_dep: [libmariadbd19]
       build_dep: [zlib1g-dev, libmariadb-dev]
     8.5:
@@ -880,6 +955,9 @@ extensions_available:
         && rm -f /tmp/oracle-instantclient${ORACLE_VERSION_MAJOR}-devel-${ORACLE_VERSION_DEVEL_FULL}.${ARCH}.rpm \
         && (ln -s /usr/lib/oracle/${ORACLE_VERSION_MAJOR}/client64/lib/*.so* /usr/lib/ || true) \
       build_dep: [alien]
+    8.6:
+      type: pecl
+      command: printf "instantclient,/usr/lib/oracle/${ORACLE_VERSION_MAJOR}/client64/lib/,${ORACLE_VERSION_MAJOR}" | pecl install pdo_oci
     8.5:
       type: pecl
       command: printf "instantclient,/usr/lib/oracle/${ORACLE_VERSION_MAJOR}/client64/lib/,${ORACLE_VERSION_MAJOR}" | pecl install pdo_oci
@@ -896,7 +974,7 @@ extensions_available:
       type: builtin
       configure: --with-pdo-oci=instantclient,/usr,${ORACLE_VERSION_MAJOR}
   pdo_odbc:
-    disabled: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    disabled: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6]
   pdo_pgsql:
     disabled: []
     all:
@@ -936,6 +1014,11 @@ extensions_available:
     7.0:
       type: pecl
       version: 5.3.0
+    8.6:
+      type: git
+      git_url: https://github.com/microsoft/msphpsql
+      git_ref: 4bf7dc0e29af7c2a61b0fecfc69b223507c62f86
+      command: cp -r source/shared source/pdo_sqlsrv/ && cd source/pdo_sqlsrv && phpize && ./configure && make -j$(getconf _NPROCESSORS_ONLN) && make install
   pgsql:
     disabled: []
     all:
@@ -986,6 +1069,16 @@ extensions_available:
     5.6:
       type: pecl
       version: 4.3.0
+    8.6:
+      type: git
+      git_url: https://github.com/phpredis/phpredis
+      git_ref: a6ce1e60b3e81ce3b25174aa5aaefd5590dc64fd
+      command: |
+        git submodule update --init \
+        && phpize \
+        && ./configure --enable-redis --enable-redis-igbinary --enable-redis-lzf --enable-redis-zstd --enable-redis-msgpack --enable-redis-lz4 --with-liblz4 \
+        && make -j$(getconf _NPROCESSORS_ONLN) \
+        && make install \
   sqlite3:
     disabled: []
     already_avail: "{{ php_all_versions }}"
@@ -1019,8 +1112,13 @@ extensions_available:
     7.0:
       type: pecl
       version: 5.3.0
+    8.6:
+      type: git
+      git_url: https://github.com/microsoft/msphpsql
+      git_ref: 4bf7dc0e29af7c2a61b0fecfc69b223507c62f86
+      command: cp -r source/shared source/sqlsrv/ && cd source/sqlsrv && phpize && ./configure && make -j$(getconf _NPROCESSORS_ONLN) && make install
   phalcon:
-    disabled: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    disabled: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6]
     all:
       type: git
       git_url: https://github.com/phalcon/cphalcon
@@ -1065,7 +1163,7 @@ extensions_available:
       command: cd build && ./install
   phar:
     disabled: []
-    already_avail: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    already_avail: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6]
   posix:
     disabled: []
     already_avail: "{{ php_all_versions }}"
@@ -1075,6 +1173,10 @@ extensions_available:
       type: builtin
       build_dep: [libpspell-dev]
       run_dep: [libaspell15]
+    8.6:
+      type: git
+      git_url: https://github.com/remicollet/pecl-text-pspell
+      git_ref: 648e022d52eea8e912457ee97a751d2937c258cf
     8.5:
       type: pecl
       version: 1.0.1
@@ -1082,7 +1184,7 @@ extensions_available:
       type: pecl
       version: 1.0.1
   random:
-    disabled: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    disabled: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6]
     already_avail: "{{ php_all_versions }}"
   rdkafka:
     disabled: []
@@ -1096,11 +1198,16 @@ extensions_available:
     5.6:
       type: pecl
       version: 3.1.2
+    8.6:
+      type: git
+      git_url: https://github.com/php-rdkafka/php-rdkafka
+      git_ref: 34348cd8517e0ffa85d013117fb6e4ac6da5c709
+      configure: --with-rdkafka
   readline:
     disabled: []
     already_avail: "{{ php_all_versions }}"
   recode:
-    disabled: [7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    disabled: [7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6]
     already_avail: []
     all:
       type: builtin
@@ -1135,6 +1242,11 @@ extensions_available:
     disabled: []
     all:
       type: builtin
+    8.6:
+      # Remove ucred (currently breaks build)
+      pre: |
+        docker-php-ext-configure sockets \
+        && sed -i'' 's/.*ucred.*//g' /usr/src/php/ext/sockets/sendrecvmsg.c \
     8.5:
       # Remove ucred (currently breaks build)
       pre: |
@@ -1188,8 +1300,12 @@ extensions_available:
     7.0:
       type: pecl
       version: 2.6.0
+    8.6:
+      type: git
+      git_url: https://github.com/bix0r/pecl-search_engine-solr
+      git_ref: e2b9b5353624c0e5ad453e57953cb030afb53e05
   sourceguardian:
-    disabled: []
+    disabled: [8.6]
     all:
       type: custom
       command: |
@@ -1207,7 +1323,7 @@ extensions_available:
     disabled: []
     already_avail: "{{ php_all_versions }}"
   sqlite:
-    disabled: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    disabled: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6]
     already_avail: "{{ php_all_versions }}"
   ssh2:
     disabled: [5.6, 8.0, 8.1, 8.2, 8.3]
@@ -1216,6 +1332,9 @@ extensions_available:
       version: 1.2
       build_dep: [libssh2-1-dev]
       run_dep: [libssh2-1]
+    8.6:
+      type: pecl
+      version: 1.5.0
     8.5:
       type: pecl
       version: 1.5.0
@@ -1258,7 +1377,7 @@ extensions_available:
       build_dep: [libzip-dev, zlib1g-dev]
       run_dep: [libzip4, zlib1g]
   swoole:
-    disabled: []
+    disabled: [8.6]
     all:
       type: pecl
       # Note: -D is only supported from PHP 7.2+
@@ -1331,7 +1450,7 @@ extensions_available:
       type: pecl
       version: 1.1.4
   uri:
-    disabled: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    disabled: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6]
     already_avail: "{{ php_all_versions }}"
   uuid:
     disabled: []
@@ -1343,7 +1462,7 @@ extensions_available:
       type: pecl
       version: 1.0.5
   vips:
-    disabled: [5.6, 8.2, 8.3, 8.4, 8.5]
+    disabled: [5.6, 8.2, 8.3, 8.4, 8.5, 8.6]
     all:
       type: pecl
       build_dep:
@@ -1355,7 +1474,7 @@ extensions_available:
       type: pecl
       version: 1.0.0
   wddx:
-    disabled: [7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    disabled: [7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6]
     all:
       type: builtin
       configure: --with-libxml-dir=/usr
@@ -1383,6 +1502,11 @@ extensions_available:
     5.6:
       type: pecl
       version: 2.4.1
+    8.6:
+      type: git
+      git_url: https://github.com/xdebug/xdebug
+      git_ref: 5e19866c1766e38c527f9f94faa170370dc4209f
+      configure: --enable-xdebug
   xhprof:
     disabled: [5.6]
     all:
@@ -1393,11 +1517,16 @@ extensions_available:
       type: pecl
       build_dep: [zlib1g-dev]
       run_dep: []
+    8.6:
+      type: git
+      git_url: https://github.com/viest/php-ext-xlswriter
+      git_ref: 6d6a04dacfb552a66baef7b3f7cddda8962f6344
+      command: git submodule update --init && phpize && ./configure && make -j$(getconf _NPROCESSORS_ONLN) && make install
   xmlreader:
     disabled: []
     already_avail: "{{ php_all_versions }}"
   xmlrpc:
-    disabled: [8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+    disabled: [8.0, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6]
     all:
       type: builtin
       configure: --with-libxml-dir=/usr --with-iconv-dir=/usr

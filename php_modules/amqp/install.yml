@@ -30,3 +30,10 @@ all:
 5.6:
   type: pecl
   version: 1.11.0
+
+# PHP 8.6: https://github.com/php-amqp/php-amqp/pull/638
+8.6:
+  type: git
+  git_url: https://github.com/remicollet/php-amqp
+  git_ref: 58edfb5e51a49cd10174cdfb18c73a539892d53d
+  configure: --with-amqp

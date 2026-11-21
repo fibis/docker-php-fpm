@@ -56,3 +56,10 @@ all:
   type: pecl
   version: 2.2.0
   run_dep: [libmemcachedutil2, libevent-2.0-5]
+
+# PHP 8.6: https://github.com/php-memcached-dev/php-memcached/commit/0b52d3657140750fa0eddd20cdbfc6edc8fbdadd
+8.6:
+  type: git
+  git_url: https://github.com/php-memcached-dev/php-memcached
+  git_ref: 0b52d3657140750fa0eddd20cdbfc6edc8fbdadd
+  configure: --enable-memcached --enable-memcached-igbinary --enable-memcached-msgpack --enable-memcached-json

@@ -12,6 +12,13 @@ all:
   build_dep: [libpng-dev, libjpeg-dev, libxpm-dev, libvpx-dev, zlib1g-dev, libfreetype6-dev, libwebp-dev]
   run_dep: [libpng16-16, libjpeg62-turbo, libxpm4, libvpx7, libfreetype6, libwebp7, libavif15]
 
+# PHP 8.6 bundled libgd needs libavif >= 1.0, bookworm ships 0.11: build without AVIF until the trixie move
+8.6:
+  type: builtin
+  configure: --enable-gd --with-webp --with-jpeg --with-xpm --with-freetype
+  build_dep: [libpng-dev, libjpeg-dev, libxpm-dev, libvpx-dev, zlib1g-dev, libfreetype6-dev, libwebp-dev]
+  run_dep: [libpng16-16, libjpeg62-turbo, libxpm4, libvpx7, libfreetype6, libwebp7]
+
 8.5:
   type: builtin
   configure: --enable-gd --with-webp --with-jpeg --with-xpm --with-freetype --with-avif

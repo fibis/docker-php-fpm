@@ -13,6 +13,10 @@ all:
   build_dep: [libssl-dev]
 
 # PHP 8.4+ uses a different option
+8.6:
+  type: builtin
+  configure: --with-ftp-ssl
+
 8.5:
   type: builtin
   configure: --with-ftp-ssl

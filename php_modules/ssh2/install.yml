@@ -12,6 +12,10 @@ all:
   run_dep: [libssh2-1]
 
 # ssh2 1.6.0 needs libssh2 >= 1.11 (bookworm ships 1.10)
+8.6:
+  type: pecl
+  version: 1.5.0
+
 8.5:
   type: pecl
   version: 1.5.0

@@ -1,6 +1,6 @@
 # vi: ft=dockerfile
 {{ edit_comment_base }}
-FROM php:{{ php_version }}-fpm{% if php_version in [8.1, 8.2, 8.3, 8.4, 8.5] %}-bookworm{% endif %}
+FROM php:{{ php_version }}-fpm{% if php_version in [8.1, 8.2, 8.3, 8.4, 8.5, 8.6] %}-bookworm{% endif %}
 
 
 
@@ -78,6 +78,18 @@ RUN set -eux \
         procps \
     && rm -rf /var/lib/apt/lists/*
 
+{% if php_version >= 8.6 %}
+###
+### PEAR/PECL: php:8.6+ images no longer ship it (docker-library/php#1654)
+###
+RUN set -eux \
+    && curl -fsSL https://pear.php.net/install-pear-nozlib.phar -o /tmp/install-pear.phar \
+    && php /tmp/install-pear.phar -d /usr/local/lib/php -b /usr/local/bin \
+    && pecl update-channels \
+    && rm -rf /tmp/install-pear.phar /tmp/pear ~/.pearrc \
+    && pecl version
+
+{% endif %}
 
 ###
 ### Configure

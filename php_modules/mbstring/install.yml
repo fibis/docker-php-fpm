@@ -5,4 +5,13 @@
 # * {{ php_all_versions }}:  Array of all PHP versions
 
 
-already_avail: "{{ php_all_versions }}"  # Available by default
+# php:8.6+ images no longer build mbstring in (docker-library/php#1654)
+already_avail: [5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5]
+
+all:
+  type: builtin
+
+8.6:
+  type: builtin
+  build_dep: [libonig-dev]
+  run_dep: [libonig5]

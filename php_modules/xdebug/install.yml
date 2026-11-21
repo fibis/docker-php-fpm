@@ -31,3 +31,10 @@ all:
 5.6:
   type: pecl
   version: 2.4.1
+
+# PHP 8.6: https://github.com/xdebug/xdebug/commit/5e19866c1766e38c527f9f94faa170370dc4209f
+8.6:
+  type: git
+  git_url: https://github.com/xdebug/xdebug
+  git_ref: 5e19866c1766e38c527f9f94faa170370dc4209f
+  configure: --enable-xdebug
