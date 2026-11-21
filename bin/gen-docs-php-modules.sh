@@ -140,6 +140,7 @@ validate_readme() {
 	# echo "   <th>PHP 8.3</th>"
 	# echo "   <th>PHP 8.4</th>"
 	# echo "   <th>PHP 8.5</th>"
+	# echo "   <th>PHP 8.6</th>"
 	# echo " </tr>"
 
 	# while read -r line; do
@@ -154,6 +155,7 @@ validate_readme() {
 	# 	echo "  <td class=\"ext_${stage}_${MOD_LOWER}_8.3\">✓</td>"
 	# 	echo "  <td class=\"ext_${stage}_${MOD_LOWER}_8.4\">✓</td>"
 	# 	echo "  <td class=\"ext_${stage}_${MOD_LOWER}_8.5\">✓</td>"
+	# 	echo "  <td class=\"ext_${stage}_${MOD_LOWER}_8.6\">✓</td>"
 	# 	echo " </tr>"
 	# done < <(echo "${modules_img}")
 	# echo "</table>"
